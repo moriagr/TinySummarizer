@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8080
 
 # ✅ 7) Define the default command
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
