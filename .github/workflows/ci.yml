@@ -1,47 +1,50 @@
 name: TinySummarizer CI
 
 on:
-push:
-  branches:
-    [main]
-  paths:
+  push:
+    branches:
+      [main]
+    paths:
     - 'backend/**'
     - 'frontend/**'
     - '.github/workflows/ci.yml'
   
-pull_request:
-  branches:
-    [main]
+  pull_request:
+    branches:
+      [main]
 
 
-jobs:  backend-test:
-  name: Run Backend Test 
+jobs:
+  backend-test:
+    name: Run Backend Test
     runs-on: ubuntu-latest
-  steps:
-  - name: Checkout code
-    uses: actions/checkout@v2 
-    - name: Set up Node.js
-    uses: actions/setup-node@v2
-    with:
-      node-version: '18'
-  - name: Install dependencies
-    working-directory: ./backend
-    run: npm install
-  - name: Run tests
-    working-directory: ./backend
-    run: npm test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm install
+      - name: Run tests
+        working-directory: ./backend
+        run: npm test
 
-jobs:  frontend-test:
-  name: Run frontend Test 
+  frontend-test:
+    name: Run frontend Test
     runs-on: ubuntu-latest
-  steps:
-  - uses: actions/checkout@v2 
-  - uses: actions/setup-node@v2
-    with:
-      node-version: '18'
-  - name: Install dependencies
-    working-directory: ./frontend
-    run: npm install
-  - name: Run tests
-    working-directory: ./frontend
-    run: npm test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm install
+      - name: Run tests
+        working-directory: ./frontend
+        run: npm test
