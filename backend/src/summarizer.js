@@ -21,21 +21,25 @@ function tokenize(sentence) {
 
 export async function summarize(text, numSentences = 3) {
   const sentences = splitSentences(text);
-  const sentenceWords = sentences.map(tokenize);
+  const allWords = tokenize(text);
 
-  const scores = sentences.map((_, i) => {
-    let score = 0;
-    for (let j = 0; j < sentences.length; j++) {
-      if (i !== j) {
-        const common = sentenceWords[i].filter(word => sentenceWords[j].includes(word));
-        score += common.length;
-      }
-    }
-    return { sentence: sentences[i].trim(), score };
+  const freqMap = {};
+  allWords.forEach(word => {
+    freqMap[word] = (freqMap[word] || 0) + 1;
   });
 
-  scores.sort((a, b) => b.score - a.score);
+  const scores = sentences.map((sentence, i) => {
+    const words = tokenize(sentence);
+    if (words.length === 0) return { sentence: '', score: 0 };
 
-  const summary = scores.slice(0, numSentences).map(s => s.sentence).join(' ');
-  return summary;
+    let score = words.reduce((sum, word) => {
+      return sum + (freqMap[word] || 0);
+    }, 0);
+    return { sentence: sentence.trim(), score, index: i };
+  });
+
+  const top = scores.sort((a, b) => b.score - a.score).slice(0, numSentences);
+  top.sort((a, b) => a.index - b.index); // sort by original index
+
+  return top.map(s=>s.sentence).join(' ');
 }

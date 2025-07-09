@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest --coverage"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +17,7 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
-    "jest": "^30.0.2",
+    "jest": "^30.0.4",
     "nodemon": "^3.1.10",
     "supertest": "^7.1.1"
   }
