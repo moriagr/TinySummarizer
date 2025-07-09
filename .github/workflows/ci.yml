@@ -14,7 +14,7 @@ pull_request:
 
 
 jobs:  backend-test:
-  name: Rum Backend Test 
+  name: Run Backend Test 
     runs-on: ubuntu-latest
   steps:
   - name: Checkout code
@@ -24,10 +24,23 @@ jobs:  backend-test:
     with:
       node-version: '18'
   - name: Install dependencies
-    run: |
-      cd backend
-      npm install
+    working-directory: ./backend
+    run: npm install
   - name: Run tests
-    run: |
-      cd backend
-      npm test
+    working-directory: ./backend
+    run: npm test
+
+jobs:  frontend-test:
+  name: Run frontend Test 
+    runs-on: ubuntu-latest
+  steps:
+  - uses: actions/checkout@v2 
+  - uses: actions/setup-node@v2
+    with:
+      node-version: '18'
+  - name: Install dependencies
+    working-directory: ./frontend
+    run: npm install
+  - name: Run tests
+    working-directory: ./frontend
+    run: npm test
