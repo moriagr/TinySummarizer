@@ -9,9 +9,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/summarize', async (req, res) => {
-  const { text } = req.body;
+  const { text, length } = req.body;
   try {
-    const summary = await summarize(text);
+    const summary = await summarize(text, length || 3); // Default to 3 sentences if length not provided
     res.json({ summary });
   } catch (err) {
     console.log(err);

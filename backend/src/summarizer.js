@@ -19,7 +19,7 @@ function tokenize(sentence) {
     .filter(word => word && !STOPWORDS.has(word));
 }
 
-export async function summarize(text, numSentences = 3) {
+export async function summarize(text, numSentences = 10) {
   const sentences = splitSentences(text);
   const allWords = tokenize(text);
 
@@ -37,8 +37,9 @@ export async function summarize(text, numSentences = 3) {
     }, 0);
     return { sentence: sentence.trim(), score, index: i };
   });
-
-  const top = scores.sort((a, b) => b.score - a.score).slice(0, numSentences);
+  // Filter out sentences with zero score
+  const filteredScores = scores.filter(s => s.score > 0);
+  const top = filteredScores.sort((a, b) => b.score - a.score).slice(0, numSentences);
   top.sort((a, b) => a.index - b.index); // sort by original index
 
   return top.map(s=>s.sentence).join(' ');
